@@ -148,39 +148,52 @@
         .ceo-info p { font-size: 13px; opacity: 0.8; font-weight: 400; }
 
         /* ===== CONNECTORS - PROPER TREE STRUCTURE ===== */
-        .connector-section { position: relative; margin-bottom: 0; }
-        .connector-tree {
+        .connector-section {
+            position: relative;
+            margin-bottom: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
-            position: relative;
         }
-        .connector-ceo-drop {
+        .connector-ceo-line {
             width: 2px;
             height: 30px;
             background: #0a2540;
         }
-        .connector-branch-line {
-            height: 2px;
-            background: #0a2540;
-            width: 100%;
+        .connector-branch {
             position: relative;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         .connector-drops {
             display: grid;
             gap: 18px;
             width: 100%;
             position: relative;
-            margin-top: 0;
+            grid-template-columns: repeat(6, 1fr);
+        }
+        .connector-drops::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #0a2540;
         }
         .connector-drop {
             display: flex;
             justify-content: center;
+            position: relative;
+            padding-top: 0;
         }
         .connector-drop-line {
             width: 2px;
             height: 44px;
             background: #0a2540;
+            margin-top: 0;
         }
 
         /* ===== DIVISIONS (DYNAMIC) ===== */
@@ -243,8 +256,8 @@
             display: flex; flex-direction: column; gap: 12px; position: relative;
         }
         .sub-column::before {
-            content: ''; position: absolute; top: -30px; left: 50%; transform: translateX(-50%);
-            width: 2px; height: 30px; background: #0a2540;
+            content: ''; position: absolute; top: -26px; left: 50%; transform: translateX(-50%);
+            width: 2px; height: 26px; background: #0a2540;
         }
         .sub-box {
             border: 2px solid; border-radius: 8px; padding: 14px 10px; text-align: center;
@@ -709,9 +722,8 @@
 
             <!-- CONNECTORS -->
             <div class="connector-section" id="connectorSection">
-                <div class="connector-tree" id="connectorTree">
-                    <div class="connector-ceo-drop"></div>
-                    <div class="connector-branch-line"></div>
+                <div class="connector-ceo-line"></div>
+                <div class="connector-branch" id="connectorBranch">
                     <div class="connector-drops" id="connectorDrops">
                         <div class="connector-drop"><div class="connector-drop-line"></div></div>
                         <div class="connector-drop"><div class="connector-drop-line"></div></div>
@@ -1123,7 +1135,10 @@
             drops.innerHTML = '';
             drops.style.gridTemplateColumns = 'repeat(' + divCount + ', 1fr)';
             for (let i = 0; i < divCount; i++) {
-                drops.innerHTML += '<div class="connector-drop"><div class="connector-drop-line"></div></div>';
+                const dropDiv = document.createElement('div');
+                dropDiv.className = 'connector-drop';
+                dropDiv.innerHTML = '<div class="connector-drop-line"></div>';
+                drops.appendChild(dropDiv);
             }
 
             // Rebuild sub-structure
@@ -1217,7 +1232,10 @@
             // Add connector drop
             const drops = document.getElementById('connectorDrops');
             drops.style.gridTemplateColumns = 'repeat(' + divisionCount + ', 1fr)';
-            drops.innerHTML += '<div class="connector-drop"><div class="connector-drop-line"></div></div>';
+            const dropDiv = document.createElement('div');
+            dropDiv.className = 'connector-drop';
+            dropDiv.innerHTML = '<div class="connector-drop-line"></div>';
+            drops.appendChild(dropDiv);
 
             // Add sub-column
             const subStructure = document.getElementById('subStructure');
