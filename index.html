@@ -384,6 +384,70 @@
             .icon-option { width: 36px; height: 36px; font-size: 16px; }
         }
 
+        /* ===== ADD DIVISION FLOAT BUTTON ===== */
+        .add-div-float {
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            border: 2px solid #805ad5;
+            background: white;
+            color: #805ad5;
+            font-size: 20px; font-weight: 700;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            line-height: 1;
+            padding: 0 0 2px 0;
+            box-shadow: 0 2px 8px rgba(128,90,213,0.2);
+        }
+        .add-div-float:hover {
+            background: #805ad5;
+            color: white;
+            transform: scale(1.15);
+            box-shadow: 0 4px 12px rgba(128,90,213,0.35);
+        }
+        .add-div-float:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            border-color: #c0c8d0;
+            color: #c0c8d0;
+            transform: none;
+            box-shadow: none;
+        }
+        .add-div-float:disabled:hover {
+            background: white;
+            color: #c0c8d0;
+        }
+
+        /* ===== PDF ORIENTATION MODAL ===== */
+        .orientation-modal {
+            background: white; border-radius: 16px; padding: 28px;
+            width: 100%; max-width: 380px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); text-align: center;
+        }
+        .orientation-modal h3 { font-size: 20px; font-weight: 700; color: #0a2540; margin-bottom: 8px; }
+        .orientation-modal p { font-size: 14px; color: #5a6c7d; margin-bottom: 24px; }
+        .orientation-options { display: flex; gap: 16px; justify-content: center; margin-bottom: 20px; }
+        .orientation-option {
+            width: 100px; height: 130px; border: 2px solid #e2e8f0; border-radius: 10px;
+            background: #f8f9fa; cursor: pointer; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; gap: 10px;
+            transition: all 0.2s; padding: 12px;
+        }
+        .orientation-option:hover { border-color: #0077b6; background: #e8f4fc; }
+        .orientation-option.selected { border-color: #0077b6; background: #e8f4fc; }
+        .orientation-option .ori-preview {
+            width: 60px; height: 80px; border: 2px solid #0a2540; border-radius: 4px;
+            background: white; position: relative;
+        }
+        .orientation-option .ori-preview.portrait { width: 44px; height: 60px; }
+        .orientation-option .ori-preview.landscape { width: 60px; height: 44px; }
+        .orientation-option .ori-preview::after {
+            content: 'A4'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            font-size: 10px; font-weight: 700; color: #0a2540;
+        }
+        .orientation-option span { font-size: 12px; font-weight: 600; color: #4a5568; }
+        .orientation-actions { display: flex; gap: 12px; justify-content: center; }
+
         /* ===== PRINT ===== */
         @media print {
             body { background: white; padding-top: 0; }
@@ -412,15 +476,11 @@
                 <span id="saveText">Saved to browser</span>
             </div>
             <div class="add-menu-wrapper">
-                <button class="toolbar-btn btn-add" onclick="toggleAddMenu()">
+                <button class="toolbar-btn btn-secondary" onclick="toggleAddMenu()">
                     <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"/></svg>
-                    <span>Add</span>
+                    <span>More</span>
                 </button>
                 <div class="add-menu" id="addMenu">
-                    <button class="add-menu-item" onclick="addDivision()">
-                        <span class="menu-icon">&#127970;</span>
-                        <span>Add Division</span>
-                    </button>
                     <button class="add-menu-item" onclick="addValueCard()">
                         <span class="menu-icon">&#127942;</span>
                         <span>Add Value Card</span>
@@ -436,7 +496,7 @@
                 <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                 <span>Save HTML</span>
             </button>
-            <button class="toolbar-btn btn-primary" onclick="downloadPDF()">
+            <button class="toolbar-btn btn-primary" onclick="openOrientationModal()">
                 <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
                 <span>PDF</span>
             </button>
@@ -565,25 +625,34 @@
         </div>
     </div>
 
+    <!-- Orientation Modal -->
+    <div class="modal-overlay" id="orientationModal">
+        <div class="orientation-modal">
+            <h3>Choose PDF Orientation</h3>
+            <p>Select how you want your organogram to appear in the PDF.</p>
+            <div class="orientation-options">
+                <div class="orientation-option selected" id="oriPortrait" onclick="selectOrientation('portrait')">
+                    <div class="ori-preview portrait"></div>
+                    <span>Portrait</span>
+                </div>
+                <div class="orientation-option" id="oriLandscape" onclick="selectOrientation('landscape')">
+                    <div class="ori-preview landscape"></div>
+                    <span>Landscape</span>
+                </div>
+            </div>
+            <div class="orientation-actions">
+                <button class="confirm-btn cancel" onclick="closeOrientationModal()">Cancel</button>
+                <button class="confirm-btn" style="background:#0077b6;color:white;" onclick="proceedWithPDF()">Generate PDF</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Page Content -->
     <div class="page-wrapper">
         <div class="page" id="organogramPage">
             <!-- Header -->
             <div class="header">
                 <div class="brand">
-                    <div class="logo-upload-area" id="logoUploadArea" title="Click to upload company logo">
-                        <input type="file" class="logo-upload-input" id="logoInput" accept="image/*">
-                        <div class="upload-placeholder">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                            </svg>
-                            <span>Click to<br>add logo</span>
-                        </div>
-                        <img class="uploaded-logo" id="uploadedLogo" alt="Company Logo" crossorigin="anonymous">
-                        <div class="logo-overlay">
-                            <span>Click to<br>change</span>
-                        </div>
-                    </div>
                     <div class="brand-text">
                         <h1 contenteditable="true" data-id="company-name" data-placeholder="Organogram Builder">Organogram Builder</h1>
                         <p class="tagline" contenteditable="true" data-id="company-tagline" data-placeholder="[Company Tagline]"></p>
@@ -620,8 +689,16 @@
                 </div>
             </div>
 
+            <!-- Add Division Button (floating above line) -->
+            <div style="display:flex; justify-content:flex-end; padding-right:8px; margin-bottom:8px;">
+                <button class="add-div-float" id="addDivisionBtn" onclick="addDivision()" title="Add new division">
+                    <span>+</span>
+                </button>
+            </div>
+
             <!-- Divisions -->
-            <div class="divisions-grid" id="divisionsGrid" style="grid-template-columns: repeat(6, 1fr);">
+            <div style="display:flex; align-items:stretch; gap:18px;">
+                <div class="divisions-grid" id="divisionsGrid" style="grid-template-columns: repeat(6, 1fr); flex:1;">
                 <div class="division-card div-color-0" data-division="0">
                     <div class="remove-btn" onclick="removeDivision(0)" title="Remove division">&#10005;</div>
                     <div class="icon-picker-wrapper">
@@ -700,6 +777,7 @@
                     <div class="divider"></div>
                     <p class="desc" contenteditable="true" data-id="div-5-desc" data-placeholder="[Division Description]"></p>
                 </div>
+            </div>
             </div>
 
             <!-- Sub-structure -->
@@ -1113,10 +1191,16 @@
             subStructure.style.gridTemplateColumns = 'repeat(' + divisionCount + ', 1fr)';
             subBoxCounts.push(3);
 
+            // Update add button state
+            const addBtn = document.getElementById('addDivisionBtn');
+            if (divisionCount >= MAX_DIVISIONS) {
+                addBtn.disabled = true;
+                addBtn.title = 'Maximum divisions reached';
+            }
+
             attachAutoSaveListeners();
             saveAll();
             showSaveStatus('Division added', false);
-            document.getElementById('addMenu').classList.remove('active');
         }
 
         function removeDivision(index) {
@@ -1145,6 +1229,13 @@
             document.getElementById('divisionsGrid').style.gridTemplateColumns = 'repeat(' + divisionCount + ', 1fr)';
             document.getElementById('connectorDrops').style.gridTemplateColumns = 'repeat(' + divisionCount + ', 1fr)';
             document.getElementById('subStructure').style.gridTemplateColumns = 'repeat(' + divisionCount + ', 1fr)';
+
+            // Re-enable add button if below max
+            const addBtn = document.getElementById('addDivisionBtn');
+            if (addBtn) {
+                addBtn.disabled = false;
+                addBtn.title = 'Add new division';
+            }
 
             attachAutoSaveListeners();
             saveAll();
@@ -1262,8 +1353,31 @@
             if (hasUnsavedChanges) { e.preventDefault(); e.returnValue = ''; return ''; }
         });
 
+        // ===== ORIENTATION =====
+        let selectedOrientation = 'portrait';
+        const orientationModal = document.getElementById('orientationModal');
+
+        function openOrientationModal() {
+            selectedOrientation = 'portrait';
+            document.getElementById('oriPortrait').classList.add('selected');
+            document.getElementById('oriLandscape').classList.remove('selected');
+            orientationModal.classList.add('active');
+        }
+        function closeOrientationModal() { orientationModal.classList.remove('active'); }
+        function selectOrientation(ori) {
+            selectedOrientation = ori;
+            document.getElementById('oriPortrait').classList.toggle('selected', ori === 'portrait');
+            document.getElementById('oriLandscape').classList.toggle('selected', ori === 'landscape');
+        }
+        function proceedWithPDF() {
+            closeOrientationModal();
+            downloadPDF(selectedOrientation);
+        }
+        orientationModal.addEventListener('click', (e) => { if (e.target === orientationModal) closeOrientationModal(); });
+
         // ===== DOWNLOAD PDF =====
-        async function downloadPDF() {
+        async function downloadPDF(orientation) {
+            orientation = orientation || 'portrait';
             const overlay = document.getElementById('loadingOverlay');
             const loadingText = document.getElementById('loadingText');
             const page = document.getElementById('organogramPage');
@@ -1303,20 +1417,30 @@
                 const imgWidth = canvas.width;
                 const imgHeight = canvas.height;
                 const aspectRatio = imgHeight / imgWidth;
-                const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+                const pdf = new jsPDF({ orientation: orientation, unit: 'mm', format: 'a4' });
                 const pageWidth = pdf.internal.pageSize.getWidth();
                 const pageHeight = pdf.internal.pageSize.getHeight();
                 const margin = 8;
                 const availableWidth = pageWidth - (margin * 2);
                 const availableHeight = pageHeight - (margin * 2);
-                let renderWidth = availableWidth;
-                let renderHeight = renderWidth * aspectRatio;
-                if (renderHeight > availableHeight) {
+                let renderWidth, renderHeight, x, y;
+                if (orientation === 'landscape') {
                     renderHeight = availableHeight;
                     renderWidth = renderHeight / aspectRatio;
+                    if (renderWidth > availableWidth) {
+                        renderWidth = availableWidth;
+                        renderHeight = renderWidth * aspectRatio;
+                    }
+                } else {
+                    renderWidth = availableWidth;
+                    renderHeight = renderWidth * aspectRatio;
+                    if (renderHeight > availableHeight) {
+                        renderHeight = availableHeight;
+                        renderWidth = renderHeight / aspectRatio;
+                    }
                 }
-                const x = (pageWidth - renderWidth) / 2;
-                const y = margin;
+                x = (pageWidth - renderWidth) / 2;
+                y = (pageHeight - renderHeight) / 2;
                 const imgData = canvas.toDataURL('image/png', 1.0);
                 pdf.addImage(imgData, 'PNG', x, y, renderWidth, renderHeight);
                 const date = new Date().toISOString().split('T')[0];
