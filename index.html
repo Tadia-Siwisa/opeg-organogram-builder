@@ -147,18 +147,41 @@
         .ceo-info h3 { font-size: 16px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px; }
         .ceo-info p { font-size: 13px; opacity: 0.8; font-weight: 400; }
 
-        /* ===== CONNECTORS (DYNAMIC) ===== */
-        .connector-section { position: relative; height: 44px; margin-bottom: 0; }
-        .connector-horizontal-line {
-            position: absolute; top: 0; left: 0; right: 0; height: 2px; background: #0a2540;
+        /* ===== CONNECTORS - PROPER TREE STRUCTURE ===== */
+        .connector-section { position: relative; margin-bottom: 0; }
+        .connector-tree {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+        .connector-ceo-drop {
+            width: 2px;
+            height: 30px;
+            background: #0a2540;
+        }
+        .connector-branch-line {
+            height: 2px;
+            background: #0a2540;
+            width: 100%;
+            position: relative;
         }
         .connector-drops {
             display: grid;
             gap: 18px;
-            position: relative; top: 0; padding: 0; margin: 0;
+            width: 100%;
+            position: relative;
+            margin-top: 0;
         }
-        .connector-drop { display: flex; justify-content: center; }
-        .connector-drop-line { width: 2px; height: 44px; background: #0a2540; }
+        .connector-drop {
+            display: flex;
+            justify-content: center;
+        }
+        .connector-drop-line {
+            width: 2px;
+            height: 44px;
+            background: #0a2540;
+        }
 
         /* ===== DIVISIONS (DYNAMIC) ===== */
         .divisions-grid {
@@ -222,10 +245,6 @@
         .sub-column::before {
             content: ''; position: absolute; top: -30px; left: 50%; transform: translateX(-50%);
             width: 2px; height: 30px; background: #0a2540;
-        }
-        .sub-column::after {
-            content: ''; position: absolute; top: -30px; left: 50%; transform: translateX(-50%);
-            width: 60%; height: 2px; background: #0a2540; border-radius: 1px;
         }
         .sub-box {
             border: 2px solid; border-radius: 8px; padding: 14px 10px; text-align: center;
@@ -467,7 +486,6 @@
     <!-- Toolbar -->
     <div class="toolbar" data-html2canvas-ignore>
         <div class="toolbar-brand">
-            <div class="mini-logo">&#10022;P</div>
             <span>Organogram Builder</span>
         </div>
         <div class="toolbar-actions">
@@ -653,8 +671,21 @@
             <!-- Header -->
             <div class="header">
                 <div class="brand">
+                    <div class="logo-upload-area" id="logoUploadArea" title="Click to upload company logo / letterhead">
+                        <input type="file" class="logo-upload-input" id="logoInput" accept="image/*">
+                        <div class="upload-placeholder">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                            </svg>
+                            <span>Logo /<br>Letterhead</span>
+                        </div>
+                        <img class="uploaded-logo" id="uploadedLogo" alt="Company Logo" crossorigin="anonymous">
+                        <div class="logo-overlay">
+                            <span>Click to<br>change</span>
+                        </div>
+                    </div>
                     <div class="brand-text">
-                        <h1 contenteditable="true" data-id="company-name" data-placeholder="Organogram Builder">Organogram Builder</h1>
+                        <h1 contenteditable="true" data-id="company-name" data-placeholder="[Company Name]"></h1>
                         <p class="tagline" contenteditable="true" data-id="company-tagline" data-placeholder="[Company Tagline]"></p>
                     </div>
                 </div>
@@ -678,14 +709,17 @@
 
             <!-- CONNECTORS -->
             <div class="connector-section" id="connectorSection">
-                <div class="connector-horizontal-line"></div>
-                <div class="connector-drops" id="connectorDrops">
-                    <div class="connector-drop"><div class="connector-drop-line"></div></div>
-                    <div class="connector-drop"><div class="connector-drop-line"></div></div>
-                    <div class="connector-drop"><div class="connector-drop-line"></div></div>
-                    <div class="connector-drop"><div class="connector-drop-line"></div></div>
-                    <div class="connector-drop"><div class="connector-drop-line"></div></div>
-                    <div class="connector-drop"><div class="connector-drop-line"></div></div>
+                <div class="connector-tree" id="connectorTree">
+                    <div class="connector-ceo-drop"></div>
+                    <div class="connector-branch-line"></div>
+                    <div class="connector-drops" id="connectorDrops">
+                        <div class="connector-drop"><div class="connector-drop-line"></div></div>
+                        <div class="connector-drop"><div class="connector-drop-line"></div></div>
+                        <div class="connector-drop"><div class="connector-drop-line"></div></div>
+                        <div class="connector-drop"><div class="connector-drop-line"></div></div>
+                        <div class="connector-drop"><div class="connector-drop-line"></div></div>
+                        <div class="connector-drop"><div class="connector-drop-line"></div></div>
+                    </div>
                 </div>
             </div>
 
