@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OPEG Group - Organizational Chart</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #eef2f7;
+            color: #1a1a2e;
+            line-height: 1.4;
+            padding-top: 70px;
+        }
+
+        /* ===== TOOLBAR ===== */
+        .toolbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: #0a2540;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.2);
+        }
+
+        .toolbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: white;
+        }
+
+        .toolbar-brand .mini-logo {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 700;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .toolbar-brand span {
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .toolbar-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .toolbar-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: #0077b6;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #005f8f;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .btn-success {
+            background: #00a896;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #008a7a;
+            transform: translateY(-1px);
+        }
+
+        .edit-indicator {
+            color: rgba(255,255,255,0.6);
+            font-size: 12px;
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .edit-indicator .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #00d4aa;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        /* ===== PAGE ===== */
+        .page-wrapper {
+            display: flex;
+            justify-content: center;
+            padding: 30px 20px 60px;
+        }
+
+        .page {
+            width: 1400px;
+            min-height: 1000px;
+            background: white;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.12);
+            padding: 40px 50px;
+            position: relative;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 25px;
+            border-bottom: 3px solid #0a2540;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo-container {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: #0a2540;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(10, 37, 64, 0.35);
+            border: 4px solid #c8d0d8;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-container::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(0,180,220,0.25) 0%, transparent 70%);
+        }
+
+        .logo-star {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .logo-star::before,
+        .logo-star::after {
+            content: '';
+            position: absolute;
+            background: rgba(0, 180, 220, 0.35);
+        }
+
+        .logo-star::before {
+            width: 2px;
+            height: 100%;
+            left: 50%;
+            top: 0;
+            transform: translateX(-50%);
+        }
+
+        .logo-star::after {
+            width: 100%;
+            height: 2px;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+        }
+
+        .logo-text {
+            color: white;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            z-index: 2;
+            text-shadow: 0 0 10px rgba(0, 180, 220, 0.9);
+        }
+
+        .logo-text .star-icon {
+            color: #00d4f5;
+            font-size: 20px;
+        }
+
+        .brand-text h1 {
+            font-size: 42px;
+            font-weight: 800;
+            color: #0a2540;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .brand-text .tagline {
+            font-size: 15px;
+            color: #5a6c7d;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            margin-top: 4px;
+        }
+
+        .chart-title {
+            text-align: right;
+        }
+
+        .chart-title h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #0a2540;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .chart-title .subtitle {
+            font-size: 14px;
+            color: #5a6c7d;
+            margin-top: 5px;
+        }
+
+        .chart-title .accent-line {
+            width: 60px;
+            height: 3px;
+            background: #0a2540;
+            margin-top: 10px;
+            margin-left: auto;
+        }
+
+        /* ===== CEO BOX ===== */
+        .ceo-section {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .ceo-box {
+            background: #0a2540;
+            color: white;
+            padding: 20px 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            box-shadow: 0 8px 25px rgba(10, 37, 64, 0.3);
+            min-width: 340px;
+        }
+
+        .ceo-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .ceo-info h3 {
+            font-size: 16px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 3px;
+        }
+
+        .ceo-info p {
+            font-size: 13px;
+            opacity: 0.8;
+            font-weight: 400;
+        }
+
+        /* ===== CONNECTORS ===== */
+        .connector-container {
+            position: relative;
+            height: 40px;
+        }
+
+        .connector-line {
+            position: absolute;
+            background: #0a2540;
+        }
+
+        .connector-horizontal {
+            height: 2px;
+            top: 0;
+            left: 12.5%;
+            right: 12.5%;
+        }
+
+        /* ===== DIVISIONS ===== */
+        .divisions-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 18px;
+            margin-bottom: 40px;
+        }
+
+        .division-card {
+            border-radius: 10px;
+            padding: 22px 16px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            border-top: 4px solid;
+            background: white;
+        }
+
+        .division-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+
+        .division-card::before {
+            content: '';
+            position: absolute;
+            top: -44px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 44px;
+            background: #0a2540;
+        }
+
+        .division-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+            font-size: 22px;
+            color: white;
+        }
+
+        .division-card h4 {
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .division-card .desc {
+            font-size: 12px;
+            color: #5a6c7d;
+            line-height: 1.4;
+        }
+
+        .division-card .divider {
+            width: 30px;
+            height: 2px;
+            margin: 10px auto;
+            background: currentColor;
+            opacity: 0.3;
+        }
+
+        /* Division Colors */
+        .div-engineering { border-color: #0a2540; }
+        .div-engineering .division-icon { background: #0a2540; }
+        .div-engineering h4 { color: #0a2540; }
+
+        .div-energy { border-color: #0077b6; }
+        .div-energy .division-icon { background: #0077b6; }
+        .div-energy h4 { color: #0077b6; }
+
+        .div-logistics { border-color: #00a896; }
+        .div-logistics .division-icon { background: #00a896; }
+        .div-logistics h4 { color: #00a896; }
+
+        .div-tech { border-color: #6b4c9a; }
+        .div-tech .division-icon { background: #6b4c9a; }
+        .div-tech h4 { color: #6b4c9a; }
+
+        .div-services { border-color: #c9a227; }
+        .div-services .division-icon { background: #c9a227; }
+        .div-services h4 { color: #c9a227; }
+
+        .div-security { border-color: #2c5282; }
+        .div-security .division-icon { background: #2c5282; }
+        .div-security h4 { color: #2c5282; }
+
+        /* ===== SUB-STRUCTURE ===== */
+        .sub-structure {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 18px;
+            margin-bottom: 50px;
+        }
+
+        .sub-column {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            position: relative;
+        }
+
+        .sub-column::before {
+            content: '';
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 30px;
+            background: #0a2540;
+        }
+
+        .sub-column::after {
+            content: '';
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 2px;
+            background: #0a2540;
+            border-radius: 1px;
+        }
+
+        .sub-box {
+            border: 2px solid;
+            border-radius: 8px;
+            padding: 14px 10px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: white;
+            transition: all 0.2s;
+        }
+
+        .sub-box:hover {
+            background: #f8f9fa;
+            transform: scale(1.02);
+        }
+
+        .sub-managing { border-color: #0a2540; color: #0a2540; }
+        .sub-operations { border-color: #5a6c7d; color: #5a6c7d; }
+        .sub-team { border-color: #8a9aaa; color: #8a9aaa; border-style: dashed; }
+
+        .sub-column:nth-child(2) .sub-managing { border-color: #0077b6; color: #0077b6; }
+        .sub-column:nth-child(2) .sub-operations { border-color: #4a90b8; color: #4a90b8; }
+        .sub-column:nth-child(2) .sub-team { border-color: #7ab8d8; color: #7ab8d8; }
+
+        .sub-column:nth-child(3) .sub-managing { border-color: #00a896; color: #00a896; }
+        .sub-column:nth-child(3) .sub-operations { border-color: #4ac4b0; color: #4ac4b0; }
+        .sub-column:nth-child(3) .sub-team { border-color: #7dd8c8; color: #7dd8c8; }
+
+        .sub-column:nth-child(4) .sub-managing { border-color: #6b4c9a; color: #6b4c9a; }
+        .sub-column:nth-child(4) .sub-operations { border-color: #8a6cb8; color: #8a6cb8; }
+        .sub-column:nth-child(4) .sub-team { border-color: #a990c8; color: #a990c8; }
+
+        .sub-column:nth-child(5) .sub-managing { border-color: #c9a227; color: #c9a227; }
+        .sub-column:nth-child(5) .sub-operations { border-color: #d4b84a; color: #d4b84a; }
+        .sub-column:nth-child(5) .sub-team { border-color: #e0cc7a; color: #e0cc7a; }
+
+        .sub-column:nth-child(6) .sub-managing { border-color: #2c5282; color: #2c5282; }
+        .sub-column:nth-child(6) .sub-operations { border-color: #4a70a0; color: #4a70a0; }
+        .sub-column:nth-child(6) .sub-team { border-color: #7a98c0; color: #7a98c0; }
+
+        /* ===== VALUES ===== */
+        .values-section {
+            border-top: 2px solid #e8ecef;
+            padding-top: 35px;
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 25px;
+        }
+
+        .value-card {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .value-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #0a2540;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+            color: white;
+        }
+
+        .value-content h5 {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #0a2540;
+            margin-bottom: 6px;
+        }
+
+        .value-content p {
+            font-size: 11px;
+            color: #5a6c7d;
+            line-height: 1.5;
+        }
+
+        /* ===== EDITABLE STYLES ===== */
+        [contenteditable="true"] {
+            outline: none;
+            border-bottom: 1px dashed transparent;
+            transition: all 0.2s;
+            cursor: text;
+        }
+
+        [contenteditable="true"]:hover {
+            border-bottom-color: #0077b6;
+            background: rgba(0, 119, 182, 0.06);
+            border-radius: 2px;
+        }
+
+        [contenteditable="true"]:focus {
+            border-bottom-color: #0077b6;
+            background: rgba(0, 119, 182, 0.1);
+            border-radius: 2px;
+        }
+
+        /* ===== LOADING OVERLAY ===== */
+        .loading-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(10, 37, 64, 0.85);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            z-index: 2000;
+            backdrop-filter: blur(4px);
+        }
+
+        .loading-overlay.active {
+            display: flex;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255,255,255,0.2);
+            border-top-color: #00d4f5;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            color: white;
+            margin-top: 20px;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        /* ===== PRINT ===== */
+        @media print {
+            body { background: white; padding-top: 0; }
+            .toolbar, .loading-overlay { display: none !important; }
+            .page { 
+                box-shadow: none; 
+                margin: 0; 
+                width: 100%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Toolbar -->
+    <div class="toolbar" data-html2canvas-ignore>
+        <div class="toolbar-brand">
+            <div class="mini-logo">✦P</div>
+            <span>OPEG Organogram Editor</span>
+        </div>
+        <div class="toolbar-actions">
+            <div class="edit-indicator">
+                <div class="dot"></div>
+                <span>Click any text to edit</span>
+            </div>
+            <button class="toolbar-btn btn-secondary" onclick="saveHTML()">
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                Save as HTML
+            </button>
+            <button class="toolbar-btn btn-primary" onclick="downloadPDF()">
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                Download PDF
+            </button>
+            <button class="toolbar-btn btn-success" onclick="window.print()">
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+                Print
+            </button>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+        <div class="loading-text" id="loadingText">Generating PDF...</div>
+    </div>
+
+    <!-- Page Content -->
+    <div class="page-wrapper">
+        <div class="page" id="organogramPage">
+            <!-- Header -->
+            <div class="header">
+                <div class="brand">
+                    <div class="logo-container">
+                        <div class="logo-star"></div>
+                        <div class="logo-text">
+                            <span class="star-icon">✦</span>PEG
+                        </div>
+                    </div>
+                    <div class="brand-text">
+                        <h1 contenteditable="true">OPEG GROUP</h1>
+                        <p class="tagline" contenteditable="true">Powering Excellence. Empowering Growth.</p>
+                    </div>
+                </div>
+                <div class="chart-title">
+                    <h2>Group Organogram</h2>
+                    <p class="subtitle" contenteditable="true">Our Structure. Our Strength.</p>
+                    <div class="accent-line"></div>
+                </div>
+            </div>
+
+            <!-- CEO Section -->
+            <div class="ceo-section">
+                <div class="ceo-box">
+                    <div class="ceo-icon">👤</div>
+                    <div class="ceo-info">
+                        <h3 contenteditable="true">Chief Executive Officer</h3>
+                        <p contenteditable="true">OPEG Group</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Connector -->
+            <div class="connector-container">
+                <div class="connector-line connector-horizontal"></div>
+            </div>
+
+            <!-- Divisions -->
+            <div class="divisions-grid">
+                <div class="division-card div-engineering">
+                    <div class="division-icon">🏗️</div>
+                    <h4 contenteditable="true">OPEG<br>Engineering</h4>
+                    <div class="divider"></div>
+                    <p class="desc" contenteditable="true">Engineering Solutions<br>& Project Delivery</p>
+                </div>
+
+                <div class="division-card div-energy">
+                    <div class="division-icon">⚡</div>
+                    <h4 contenteditable="true">OPEG<br>Energy</h4>
+                    <div class="divider"></div>
+                    <p class="desc" contenteditable="true">Energy Solutions<br>& Infrastructure</p>
+                </div>
+
+                <div class="division-card div-logistics">
+                    <div class="division-icon">🚛</div>
+                    <h4 contenteditable="true">OPEG<br>Logistics</h4>
+                    <div class="divider"></div>
+                    <p class="desc" contenteditable="true">Logistics & Supply<br>Chain Solutions</p>
+                </div>
+
+                <div class="division-card div-tech">
+                    <div class="division-icon">📈</div>
+                    <h4 contenteditable="true">OPEG<br>Technologies</h4>
+                    <div class="divider"></div>
+                    <p class="desc" contenteditable="true">Technology Systems<br>& Digital Solutions</p>
+                </div>
+
+                <div class="division-card div-services">
+                    <div class="division-icon">👥</div>
+                    <h4 contenteditable="true">OPEG<br>Services</h4>
+                    <div class="divider"></div>
+                    <p class="desc" contenteditable="true">Facilities Management<br>& Support Services</p>
+                </div>
+
+                <div class="division-card div-security">
+                    <div class="division-icon">🛡️</div>
+                    <h4 contenteditable="true">OPEG<br>Security</h4>
+                    <div class="divider"></div>
+                    <p class="desc" contenteditable="true">Security Solutions<br>& Risk Management</p>
+                </div>
+            </div>
+
+            <!-- Sub-structure -->
+            <div class="sub-structure">
+                <div class="sub-column">
+                    <div class="sub-box sub-managing" contenteditable="true">Managing Director</div>
+                    <div class="sub-box sub-operations" contenteditable="true">Operations Manager</div>
+                    <div class="sub-box sub-team" contenteditable="true">Team Leads<br>& Specialists</div>
+                </div>
+                <div class="sub-column">
+                    <div class="sub-box sub-managing" contenteditable="true">Managing Director</div>
+                    <div class="sub-box sub-operations" contenteditable="true">Operations Manager</div>
+                    <div class="sub-box sub-team" contenteditable="true">Team Leads<br>& Specialists</div>
+                </div>
+                <div class="sub-column">
+                    <div class="sub-box sub-managing" contenteditable="true">Managing Director</div>
+                    <div class="sub-box sub-operations" contenteditable="true">Operations Manager</div>
+                    <div class="sub-box sub-team" contenteditable="true">Team Leads<br>& Specialists</div>
+                </div>
+                <div class="sub-column">
+                    <div class="sub-box sub-managing" contenteditable="true">Managing Director</div>
+                    <div class="sub-box sub-operations" contenteditable="true">Operations Manager</div>
+                    <div class="sub-box sub-team" contenteditable="true">Team Leads<br>& Specialists</div>
+                </div>
+                <div class="sub-column">
+                    <div class="sub-box sub-managing" contenteditable="true">Managing Director</div>
+                    <div class="sub-box sub-operations" contenteditable="true">Operations Manager</div>
+                    <div class="sub-box sub-team" contenteditable="true">Team Leads<br>& Specialists</div>
+                </div>
+                <div class="sub-column">
+                    <div class="sub-box sub-managing" contenteditable="true">Managing Director</div>
+                    <div class="sub-box sub-operations" contenteditable="true">Operations Manager</div>
+                    <div class="sub-box sub-team" contenteditable="true">Team Leads<br>& Specialists</div>
+                </div>
+            </div>
+
+            <!-- Values Section -->
+            <div class="values-section">
+                <div class="value-card">
+                    <div class="value-icon">🎯</div>
+                    <div class="value-content">
+                        <h5 contenteditable="true">Our Purpose</h5>
+                        <p contenteditable="true">To deliver innovative solutions that create lasting value for our clients and communities.</p>
+                    </div>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-icon">🤝</div>
+                    <div class="value-content">
+                        <h5 contenteditable="true">Our Commitment</h5>
+                        <p contenteditable="true">We are committed to integrity, safety, quality and sustainable growth.</p>
+                    </div>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-icon">⭐</div>
+                    <div class="value-content">
+                        <h5 contenteditable="true">Our People</h5>
+                        <p contenteditable="true">Our people are our greatest strength. Together we achieve extraordinary results.</p>
+                    </div>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-icon">💡</div>
+                    <div class="value-content">
+                        <h5 contenteditable="true">Our Innovation</h5>
+                        <p contenteditable="true">We embrace technology and innovation to build a smarter, better tomorrow.</p>
+                    </div>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-icon">🛡️</div>
+                    <div class="value-content">
+                        <h5 contenteditable="true">Our Values</h5>
+                        <p contenteditable="true">Integrity | Excellence | Respect<br>Accountability | Collaboration<br>Safety | Sustainability</p>
+                    </div>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-icon">🌍</div>
+                    <div class="value-content">
+                        <h5 contenteditable="true">Our Vision</h5>
+                        <p contenteditable="true">To be the leading integrated energy solutions provider across global markets.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===== DOWNLOAD AS PDF =====
+        async function downloadPDF() {
+            const overlay = document.getElementById('loadingOverlay');
+            const loadingText = document.getElementById('loadingText');
+            const page = document.getElementById('organogramPage');
+
+            overlay.classList.add('active');
+            loadingText.textContent = 'Capturing organogram...';
+
+            try {
+                // Wait for fonts to settle
+                await document.fonts.ready;
+
+                // Small delay to ensure rendering is complete
+                await new Promise(r => setTimeout(r, 300));
+
+                loadingText.textContent = 'Rendering high-quality image...';
+
+                const canvas = await html2canvas(page, {
+                    scale: 2.5,
+                    useCORS: true,
+                    logging: false,
+                    backgroundColor: '#ffffff',
+                    windowWidth: 1400,
+                    width: 1400,
+                    onclone: (clonedDoc) => {
+                        // Ensure cloned document renders correctly
+                        const clonedPage = clonedDoc.getElementById('organogramPage');
+                        if (clonedPage) {
+                            clonedPage.style.transform = 'none';
+                            clonedPage.style.boxShadow = 'none';
+                        }
+                    }
+                });
+
+                loadingText.textContent = 'Building PDF document...';
+
+                const { jsPDF } = window.jspdf;
+
+                // Calculate dimensions for A4 landscape to fit the wide chart
+                const imgWidth = canvas.width;
+                const imgHeight = canvas.height;
+                const aspectRatio = imgHeight / imgWidth;
+
+                // Use A3 landscape for better fit, or scale to A4
+                const pdfWidth = 420; // A3 width in mm (landscape)
+                const pdfHeight = 297; // A3 height in mm
+
+                const pdf = new jsPDF({
+                    orientation: 'landscape',
+                    unit: 'mm',
+                    format: 'a3'
+                });
+
+                const pageWidth = pdf.internal.pageSize.getWidth();
+                const pageHeight = pdf.internal.pageSize.getHeight();
+
+                // Calculate scaled dimensions to fit within page with margins
+                const margin = 10;
+                const availableWidth = pageWidth - (margin * 2);
+                const availableHeight = pageHeight - (margin * 2);
+
+                let renderWidth = availableWidth;
+                let renderHeight = renderWidth * aspectRatio;
+
+                // If height exceeds available space, scale by height instead
+                if (renderHeight > availableHeight) {
+                    renderHeight = availableHeight;
+                    renderWidth = renderHeight / aspectRatio;
+                }
+
+                // Center the image
+                const x = (pageWidth - renderWidth) / 2;
+                const y = (pageHeight - renderHeight) / 2;
+
+                const imgData = canvas.toDataURL('image/png', 1.0);
+
+                pdf.addImage(imgData, 'PNG', x, y, renderWidth, renderHeight);
+
+                // Generate filename with date
+                const date = new Date().toISOString().split('T')[0];
+                pdf.save(`OPEG_Organogram_${date}.pdf`);
+
+            } catch (error) {
+                console.error('PDF generation failed:', error);
+                alert('PDF generation failed. Please try using the Print button instead.');
+            } finally {
+                overlay.classList.remove('active');
+            }
+        }
+
+        // ===== SAVE AS HTML =====
+        function saveHTML() {
+            const page = document.getElementById('organogramPage');
+
+            // Clone the page content
+            const clone = page.cloneNode(true);
+
+            // Remove contenteditable attributes from clone for clean output
+            clone.querySelectorAll('[contenteditable]').forEach(el => {
+                el.removeAttribute('contenteditable');
+            });
+
+            // Build a clean standalone HTML file
+            const htmlOutput = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OPEG Group - Organizational Chart</title>
+    <style>
+${document.querySelector('style').textContent.replace(/data-html2canvas-ignore[\s\S]*?\}/g, '').replace(/\.toolbar[\s\S]*?\}/g, '').replace(/\.loading-overlay[\s\S]*?\}/g, '').replace(/@keyframes pulse[\s\S]*?\}/g, '')}
+    </style>
+</head>
+<body style="background:#f8f9fa; padding:20px;">
+    <div style="max-width:1400px; margin:0 auto; background:white; box-shadow:0 4px 20px rgba(0,0,0,0.1); padding:40px 50px;">
+${clone.innerHTML}
+    </div>
+</body>
+</html>`;
+
+            const blob = new Blob([htmlOutput], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            const date = new Date().toISOString().split('T')[0];
+            a.href = url;
+            a.download = `OPEG_Organogram_${date}.html`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // ===== AUTO-SAVE TO LOCAL STORAGE =====
+        let saveTimeout;
+        document.querySelectorAll('[contenteditable="true"]').forEach(el => {
+            el.addEventListener('input', () => {
+                clearTimeout(saveTimeout);
+                saveTimeout = setTimeout(() => {
+                    const data = {};
+                    document.querySelectorAll('[contenteditable="true"]').forEach((elem, idx) => {
+                        data[idx] = elem.innerHTML;
+                    });
+                    localStorage.setItem('opeg_organogram_draft', JSON.stringify(data));
+                }, 1000);
+            });
+        });
+
+        // ===== RESTORE DRAFT ON LOAD =====
+        window.addEventListener('load', () => {
+            const draft = localStorage.getItem('opeg_organogram_draft');
+            if (draft) {
+                try {
+                    const data = JSON.parse(draft);
+                    const elements = document.querySelectorAll('[contenteditable="true"]');
+                    Object.keys(data).forEach(key => {
+                        if (elements[key]) {
+                            elements[key].innerHTML = data[key];
+                        }
+                    });
+                } catch (e) {
+                    console.log('No draft to restore');
+                }
+            }
+        });
+
+        // ===== KEYBOARD SHORTCUTS =====
+        document.addEventListener('keydown', (e) => {
+            // Ctrl/Cmd + S = Save HTML
+            if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+                e.preventDefault();
+                saveHTML();
+            }
+            // Ctrl/Cmd + P = Print
+            if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
+                // Print stylesheet handles toolbar hiding
+            }
+        });
+    </script>
+</body>
+</html>
