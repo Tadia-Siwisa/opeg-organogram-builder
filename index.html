@@ -572,6 +572,13 @@
             .sub-structure { grid-template-columns: repeat(6, 1fr) !important; }
             .values-section { grid-template-columns: repeat(6, 1fr) !important; }
         }
+
+        /* ===== DIVISIONS WRAPPER ===== */
+        .divisions-wrapper {
+            display: flex;
+            align-items: stretch;
+            gap: 18px;
+        }
     </style>
 </head>
 <body>
@@ -611,7 +618,7 @@
                 <span>PDF</span>
             </button>
             <button class="toolbar-btn btn-success" onclick="window.print()">
-                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2h-6a2 2 0 00-2 2v4a2 2 0 002 2z"/></svg>
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2z"/></svg>
                 <span>Print</span>
             </button>
         </div>
@@ -814,95 +821,14 @@
                 </div>
             </div>
 
-            <!-- Add Division Button (floating above line) -->
-            <div style="display:flex; justify-content:flex-end; padding-right:8px; margin-bottom:8px;">
-                <button class="add-div-float" id="addDivisionBtn" onclick="addDivision()" title="Add new division">
-                    <span>+</span>
-                </button>
-            </div>
-
-            <!-- Divisions -->
-            <div style="display:flex; align-items:stretch; gap:18px;">
-                <div class="divisions-grid" id="divisionsGrid">
-                <div class="division-card div-color-0" data-division="0">
-                    <div class="remove-btn" onclick="removeDivision(0)" title="Remove division">&#10005;</div>
-                    <div class="icon-picker-wrapper">
-                        <div class="icon-picker-area" onclick="openIconPicker(this)" data-icon="&#127959;">
-                            <span class="icon-display">&#127959;</span>
-                            <div class="icon-overlay">&#9998;</div>
-                        </div>
-                        <div class="edit-badge">&#9998;</div>
-                    </div>
-                    <h4 contenteditable="true" data-id="div-0-name" data-placeholder="[Division Name]"></h4>
-                    <div class="divider"></div>
-                    <p class="desc" contenteditable="true" data-id="div-0-desc" data-placeholder="[Division Description]"></p>
+            <!-- Divisions Wrapper -->
+            <div class="divisions-wrapper">
+                <div class="divisions-grid" id="divisionsGrid"></div>
+                <div style="display:flex; justify-content:center; align-items:flex-start; padding-top:18px;">
+                    <button class="add-div-float" id="addDivisionBtn" onclick="addDivision()" title="Add new division">
+                        <span>+</span>
+                    </button>
                 </div>
-                <div class="division-card div-color-1" data-division="1">
-                    <div class="remove-btn" onclick="removeDivision(1)" title="Remove division">&#10005;</div>
-                    <div class="icon-picker-wrapper">
-                        <div class="icon-picker-area" onclick="openIconPicker(this)" data-icon="&#9889;">
-                            <span class="icon-display">&#9889;</span>
-                            <div class="icon-overlay">&#9998;</div>
-                        </div>
-                        <div class="edit-badge">&#9998;</div>
-                    </div>
-                    <h4 contenteditable="true" data-id="div-1-name" data-placeholder="[Division Name]"></h4>
-                    <div class="divider"></div>
-                    <p class="desc" contenteditable="true" data-id="div-1-desc" data-placeholder="[Division Description]"></p>
-                </div>
-                <div class="division-card div-color-2" data-division="2">
-                    <div class="remove-btn" onclick="removeDivision(2)" title="Remove division">&#10005;</div>
-                    <div class="icon-picker-wrapper">
-                        <div class="icon-picker-area" onclick="openIconPicker(this)" data-icon="&#128667;">
-                            <span class="icon-display">&#128667;</span>
-                            <div class="icon-overlay">&#9998;</div>
-                        </div>
-                        <div class="edit-badge">&#9998;</div>
-                    </div>
-                    <h4 contenteditable="true" data-id="div-2-name" data-placeholder="[Division Name]"></h4>
-                    <div class="divider"></div>
-                    <p class="desc" contenteditable="true" data-id="div-2-desc" data-placeholder="[Division Description]"></p>
-                </div>
-                <div class="division-card div-color-3" data-division="3">
-                    <div class="remove-btn" onclick="removeDivision(3)" title="Remove division">&#10005;</div>
-                    <div class="icon-picker-wrapper">
-                        <div class="icon-picker-area" onclick="openIconPicker(this)" data-icon="&#128200;">
-                            <span class="icon-display">&#128200;</span>
-                            <div class="icon-overlay">&#9998;</div>
-                        </div>
-                        <div class="edit-badge">&#9998;</div>
-                    </div>
-                    <h4 contenteditable="true" data-id="div-3-name" data-placeholder="[Division Name]"></h4>
-                    <div class="divider"></div>
-                    <p class="desc" contenteditable="true" data-id="div-3-desc" data-placeholder="[Division Description]"></p>
-                </div>
-                <div class="division-card div-color-4" data-division="4">
-                    <div class="remove-btn" onclick="removeDivision(4)" title="Remove division">&#10005;</div>
-                    <div class="icon-picker-wrapper">
-                        <div class="icon-picker-area" onclick="openIconPicker(this)" data-icon="&#128101;">
-                            <span class="icon-display">&#128101;</span>
-                            <div class="icon-overlay">&#9998;</div>
-                        </div>
-                        <div class="edit-badge">&#9998;</div>
-                    </div>
-                    <h4 contenteditable="true" data-id="div-4-name" data-placeholder="[Division Name]"></h4>
-                    <div class="divider"></div>
-                    <p class="desc" contenteditable="true" data-id="div-4-desc" data-placeholder="[Division Description]"></p>
-                </div>
-                <div class="division-card div-color-5" data-division="5">
-                    <div class="remove-btn" onclick="removeDivision(5)" title="Remove division">&#10005;</div>
-                    <div class="icon-picker-wrapper">
-                        <div class="icon-picker-area" onclick="openIconPicker(this)" data-icon="&#128737;">
-                            <span class="icon-display">&#128737;</span>
-                            <div class="icon-overlay">&#9998;</div>
-                        </div>
-                        <div class="edit-badge">&#9998;</div>
-                    </div>
-                    <h4 contenteditable="true" data-id="div-5-name" data-placeholder="[Division Name]"></h4>
-                    <div class="divider"></div>
-                    <p class="desc" contenteditable="true" data-id="div-5-desc" data-placeholder="[Division Description]"></p>
-                </div>
-            </div>
             </div>
 
             <!-- Sub-structure -->
@@ -1000,153 +926,281 @@
     </div>
 
     <script>
+        // ===== DATA & STATE =====
+        let divisions = [];
+        let divisionsIndex = 0;
+        const divisionColors = ['0', '1', '2', '3', '4', '5', '6', '7'];
+        const divisionIcons = ['&#127959;', '&#9889;', '&#128667;', '&#128200;', '&#128101;', '&#128737;', '&#128658;', '&#128176;'];
 
-        // ===== CONFIG =====
-        const MAX_DIVISIONS = 8;
-        const STORAGE_KEYS = {
-            TEXT: 'opeg_organogram_text_v3',
-            ICONS: 'opeg_organogram_icons_v3',
-            LOGO: 'opeg_organogram_logo_v3',
-            STRUCTURE: 'opeg_organogram_structure_v3',
-            TIMESTAMP: 'opeg_organogram_timestamp_v3'
-        };
-
-        // ===== STATE =====
-        let currentIconTarget = null;
-        let divisionCount = 6;
-        let valueCount = 6;
-        let subBoxCounts = [3, 3, 3, 3, 3, 3];
-        let saveTimeout;
-        let hasUnsavedChanges = false;
-        const modal = document.getElementById('iconPickerModal');
-        const confirmOverlay = document.getElementById('confirmOverlay');
-        const saveStatus = document.getElementById('saveStatus');
-        const saveDot = document.getElementById('saveDot');
-        const saveText = document.getElementById('saveText');
-        const defaultIcons = ['&#127959;', '&#9889;', '&#128667;', '&#128200;', '&#128101;', '&#128737;', '&#128176;', '&#128188;'];
-        const defaultValueIcons = ['&#127919;', '&#129309;', '&#11088;', '&#128161;', '&#128737;', '&#127757;', '&#128200;', '&#128142;'];
-
-        // ===== ADD MENU =====
-        function toggleAddMenu() {
-            document.getElementById('addMenu').classList.toggle('active');
+        // ===== UTILITY FUNCTIONS =====
+        function saveToLocalStorage() {
+            const organogramPage = document.getElementById('organogramPage');
+            const content = organogramPage.innerHTML;
+            localStorage.setItem('organogramData', content);
+            
+            showSaveStatus();
         }
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.add-menu-wrapper')) {
-                document.getElementById('addMenu').classList.remove('active');
-            }
-        });
 
-        // ===== SAVE STATUS =====
-        let saveStatusTimeout;
-        function showSaveStatus(message, isError) {
-            saveText.textContent = message;
-            saveDot.classList.toggle('error', isError);
-            saveStatus.classList.add('visible');
-            clearTimeout(saveStatusTimeout);
-            saveStatusTimeout = setTimeout(() => { saveStatus.classList.remove('visible'); }, 2500);
+        function loadFromLocalStorage() {
+            const saved = localStorage.getItem('organogramData');
+            if (saved) {
+                const organogramPage = document.getElementById('organogramPage');
+                organogramPage.innerHTML = saved;
+                reattachEventListeners();
+            }
+        }
+
+        function reattachEventListeners() {
+            document.querySelectorAll('[contenteditable="true"]').forEach(el => {
+                el.addEventListener('blur', saveToLocalStorage);
+            });
+            document.querySelectorAll('.icon-picker-area').forEach(el => {
+                el.addEventListener('click', function() {
+                    openIconPicker(this);
+                });
+            });
+        }
+
+        function showSaveStatus() {
+            const status = document.getElementById('saveStatus');
+            const dot = document.getElementById('saveDot');
+            status.classList.add('visible');
+            dot.classList.remove('error');
+            setTimeout(() => {
+                status.classList.remove('visible');
+            }, 2000);
+        }
+
+        // ===== DIVISION FUNCTIONS =====
+        function addDivision() {
+            const divisionCount = divisions.length;
+            if (divisionCount >= 8) {
+                alert('Maximum of 8 divisions allowed');
+                return;
+            }
+
+            const colorIndex = divisionCount % divisionColors.length;
+            const icon = divisionIcons[colorIndex];
+            const divisionId = divisionsIndex++;
+
+            const card = document.createElement('div');
+            card.className = `division-card div-color-${colorIndex}`;
+            card.setAttribute('data-division', divisionCount);
+            card.innerHTML = `
+                <div class="remove-btn" onclick="removeDivision(${divisionCount})" title="Remove division">&#10005;</div>
+                <div class="icon-picker-wrapper">
+                    <div class="icon-picker-area" onclick="openIconPicker(this)" data-icon="${icon}">
+                        <span class="icon-display">${icon}</span>
+                        <div class="icon-overlay">&#9998;</div>
+                    </div>
+                    <div class="edit-badge">&#9998;</div>
+                </div>
+                <h4 contenteditable="true" data-id="div-${divisionCount}-name" data-placeholder="[Division Name]"></h4>
+                <div class="divider"></div>
+                <p class="desc" contenteditable="true" data-id="div-${divisionCount}-desc" data-placeholder="[Division Description]"></p>
+            `;
+
+            document.getElementById('divisionsGrid').appendChild(card);
+
+            // Attach event listeners
+            card.querySelector('h4').addEventListener('blur', saveToLocalStorage);
+            card.querySelector('.desc').addEventListener('blur', saveToLocalStorage);
+            card.querySelector('.icon-picker-area').addEventListener('click', function() {
+                openIconPicker(this);
+            });
+
+            divisions.push({ id: divisionId, index: divisionCount, color: colorIndex });
+            updateSubStructure();
+            updateConnectors();
+            saveToLocalStorage();
+        }
+
+        function removeDivision(index) {
+            const card = document.querySelector(`.division-card[data-division="${index}"]`);
+            if (card) {
+                card.remove();
+                divisions = divisions.filter(d => d.index !== index);
+                updateSubStructure();
+                updateConnectors();
+                saveToLocalStorage();
+            }
+        }
+
+        function updateSubStructure() {
+            const subStructure = document.getElementById('subStructure');
+            subStructure.innerHTML = '';
+
+            divisions.forEach(div => {
+                const col = document.createElement('div');
+                col.className = 'sub-column';
+                col.setAttribute('data-col', div.color);
+                col.innerHTML = `
+                    <div class="sub-box sub-managing" contenteditable="true" data-id="sub-${div.index}-0" data-placeholder="[Role]"></div>
+                    <div class="sub-box sub-operations" contenteditable="true" data-id="sub-${div.index}-1" data-placeholder="[Role]"></div>
+                    <div class="sub-box sub-team" contenteditable="true" data-id="sub-${div.index}-2" data-placeholder="[Role]"></div>
+                    <div class="add-sub-btn" onclick="addSubBox(${div.index})">+ Add Role</div>
+                `;
+                subStructure.appendChild(col);
+
+                col.querySelectorAll('[contenteditable="true"]').forEach(el => {
+                    el.addEventListener('blur', saveToLocalStorage);
+                });
+            });
+        }
+
+        function updateConnectors() {
+            const divCount = divisions.length;
+            const connectorDrops = document.getElementById('connectorDrops');
+            connectorDrops.innerHTML = '';
+
+            for (let i = 0; i < Math.max(6, divCount); i++) {
+                const drop = document.createElement('div');
+                drop.className = 'connector-drop';
+                drop.innerHTML = '<div class="connector-drop-line"></div>';
+                connectorDrops.appendChild(drop);
+            }
+
+            if (divCount === 0) {
+                document.getElementById('connectorSection').style.display = 'none';
+            } else {
+                document.getElementById('connectorSection').style.display = 'flex';
+            }
+        }
+
+        function addSubBox(divIndex) {
+            const subColumn = document.querySelector(`.sub-column[data-col="${divisions.find(d => d.index === divIndex)?.color}"]`);
+            if (subColumn) {
+                const newId = `sub-${divIndex}-${Date.now()}`;
+                const div = divisions.find(d => d.index === divIndex);
+                const newBox = document.createElement('div');
+                newBox.className = `sub-box sub-team`;
+                newBox.setAttribute('contenteditable', 'true');
+                newBox.setAttribute('data-id', newId);
+                newBox.setAttribute('data-placeholder', '[Role]');
+                newBox.innerHTML = `<span class="remove-sub" onclick="this.parentElement.remove(); saveToLocalStorage();">&#10005;</span>`;
+                
+                const addBtn = subColumn.querySelector('.add-sub-btn');
+                subColumn.insertBefore(newBox, addBtn);
+
+                newBox.addEventListener('blur', saveToLocalStorage);
+                newBox.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('remove-sub')) {
+                        saveToLocalStorage();
+                    }
+                });
+                
+                saveToLocalStorage();
+            }
         }
 
         // ===== ICON PICKER =====
+        let currentIconElement = null;
+
         function openIconPicker(element) {
-            currentIconTarget = element;
-            const currentIcon = element.getAttribute('data-icon');
+            currentIconElement = element;
+            document.getElementById('iconPickerModal').classList.add('active');
+            
+            const selectedIcon = element.getAttribute('data-icon');
             document.querySelectorAll('.icon-option').forEach(opt => {
-                opt.classList.toggle('selected', opt.getAttribute('data-icon') === currentIcon);
+                if (opt.getAttribute('data-icon') === selectedIcon) {
+                    opt.classList.add('selected');
+                } else {
+                    opt.classList.remove('selected');
+                }
             });
-            modal.classList.add('active');
         }
+
         function closeIconPicker() {
-            modal.classList.remove('active');
-            currentIconTarget = null;
+            document.getElementById('iconPickerModal').classList.remove('active');
         }
-        modal.addEventListener('click', (e) => { if (e.target === modal) closeIconPicker(); });
-        document.querySelectorAll('.icon-option').forEach(option => {
-            option.addEventListener('click', () => {
-                if (!currentIconTarget) return;
-                const newIcon = option.getAttribute('data-icon');
-                currentIconTarget.setAttribute('data-icon', newIcon);
-                currentIconTarget.querySelector('.icon-display').textContent = newIcon;
-                document.querySelectorAll('.icon-option').forEach(opt => opt.classList.remove('selected'));
-                option.classList.add('selected');
-                saveAll();
-                showSaveStatus('Icon saved', false);
+
+        document.querySelectorAll('.icon-option').forEach(opt => {
+            opt.addEventListener('click', function() {
+                const icon = this.getAttribute('data-icon');
+                if (currentIconElement) {
+                    currentIconElement.setAttribute('data-icon', icon);
+                    currentIconElement.querySelector('.icon-display').innerHTML = icon;
+                    
+                    document.querySelectorAll('.icon-option').forEach(o => o.classList.remove('selected'));
+                    this.classList.add('selected');
+                    
+                    saveToLocalStorage();
+                }
             });
         });
 
-        // ===== LOGO UPLOAD =====
-        const logoInput = document.getElementById('logoInput');
-        const logoUploadArea = document.getElementById('logoUploadArea');
-        const uploadedLogo = document.getElementById('uploadedLogo');
-        logoInput.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (event) => {
-                    uploadedLogo.src = event.target.result;
-                    logoUploadArea.classList.add('has-image');
-                    saveLogo(event.target.result);
-                    showSaveStatus('Logo saved', false);
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-        logoUploadArea.addEventListener('click', () => logoInput.click());
-
-        // ===== TEXT EDITING =====
-        document.querySelectorAll('[contenteditable="true"]').forEach(elem => {
-            elem.addEventListener('blur', saveAll);
-            elem.addEventListener('keyup', () => { hasUnsavedChanges = true; });
-        });
-
-        // ===== SAVE/LOAD FUNCTIONS =====
-        function saveAll() {
-            saveTimeout = setTimeout(() => {
-                const textData = {};
-                document.querySelectorAll('[contenteditable="true"]').forEach(elem => {
-                    textData[elem.dataset.id] = elem.textContent;
-                });
-                localStorage.setItem(STORAGE_KEYS.TEXT, JSON.stringify(textData));
-                const iconData = {};
-                document.querySelectorAll('.icon-picker-area').forEach((elem, idx) => {
-                    iconData[idx] = elem.getAttribute('data-icon');
-                });
-                localStorage.setItem(STORAGE_KEYS.ICONS, JSON.stringify(iconData));
-                showSaveStatus('All saved', false);
-            }, 800);
-        }
-
-        function loadData() {
-            const savedText = localStorage.getItem(STORAGE_KEYS.TEXT);
-            if (savedText) {
-                const textData = JSON.parse(savedText);
-                Object.entries(textData).forEach(([id, text]) => {
-                    const elem = document.querySelector(`[data-id="${id}"]`);
-                    if (elem) elem.textContent = text;
-                });
-            }
-            const savedIcons = localStorage.getItem(STORAGE_KEYS.ICONS);
-            if (savedIcons) {
-                const iconData = JSON.parse(savedIcons);
-                document.querySelectorAll('.icon-picker-area').forEach((elem, idx) => {
-                    if (iconData[idx]) {
-                        elem.setAttribute('data-icon', iconData[idx]);
-                        elem.querySelector('.icon-display').textContent = iconData[idx];
-                    }
-                });
-            }
-            const savedLogo = localStorage.getItem(STORAGE_KEYS.LOGO);
-            if (savedLogo) {
-                uploadedLogo.src = savedLogo;
-                logoUploadArea.classList.add('has-image');
+        // ===== VALUE CARDS =====
+        function removeValueCard(index) {
+            const card = document.querySelector(`.value-card[data-value="${index}"]`);
+            if (card) {
+                card.remove();
+                saveToLocalStorage();
             }
         }
 
-        function saveLogo(dataUrl) {
-            localStorage.setItem(STORAGE_KEYS.LOGO, dataUrl);
+        function addValueCard() {
+            const valuesSection = document.getElementById('valuesSection');
+            const newIndex = Math.max(...Array.from(document.querySelectorAll('.value-card')).map(c => parseInt(c.getAttribute('data-value')))) + 1;
+            
+            const card = document.createElement('div');
+            card.className = 'value-card';
+            card.setAttribute('data-value', newIndex);
+            card.innerHTML = `
+                <div class="remove-value" onclick="removeValueCard(${newIndex})" title="Remove value">&#10005;</div>
+                <div class="value-icon">&#127942;</div>
+                <div class="value-content">
+                    <h5 contenteditable="true" data-id="val-${newIndex}-title" data-placeholder="[Value Title]"></h5>
+                    <p contenteditable="true" data-id="val-${newIndex}-desc" data-placeholder="[Value Description]"></p>
+                </div>
+            `;
+            
+            valuesSection.appendChild(card);
+            card.querySelectorAll('[contenteditable="true"]').forEach(el => {
+                el.addEventListener('blur', saveToLocalStorage);
+            });
+            
+            closeAddMenu();
+            saveToLocalStorage();
+        }
+
+        // ===== MENU & MODAL FUNCTIONS =====
+        function toggleAddMenu() {
+            const menu = document.getElementById('addMenu');
+            menu.classList.toggle('active');
+        }
+
+        function closeAddMenu() {
+            document.getElementById('addMenu').classList.remove('active');
+        }
+
+        function confirmReset() {
+            document.getElementById('confirmOverlay').classList.add('active');
+            closeAddMenu();
+        }
+
+        function closeConfirm() {
+            document.getElementById('confirmOverlay').classList.remove('active');
+        }
+
+        function executeReset() {
+            localStorage.removeItem('organogramData');
+            location.reload();
         }
 
         function saveHTML() {
-            const html = document.documentElement.outerHTML;
+            const element = document.getElementById('organogramPage');
+            const html = `<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organogram</title>
+</head>
+<body>
+${element.outerHTML}
+</body>
+</html>`;
+            
             const blob = new Blob([html], { type: 'text/html' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
@@ -1154,46 +1208,8 @@
             a.download = 'organogram.html';
             a.click();
             URL.revokeObjectURL(url);
-            showSaveStatus('HTML downloaded', false);
         }
 
-        // ===== ADD/REMOVE FUNCTIONS =====
-        function addDivision() {
-            if (divisionCount >= MAX_DIVISIONS) { alert('Maximum 8 divisions allowed'); return; }
-            // Implementation would add new division card
-        }
-
-        function removeDivision(index) {
-            if (divisionCount <= 1) { alert('At least 1 division required'); return; }
-            // Implementation would remove division
-        }
-
-        function addSubBox(colIndex) {
-            // Implementation would add sub-box
-        }
-
-        function addValueCard() {
-            // Implementation would add value card
-        }
-
-        function removeValueCard(index) {
-            // Implementation would remove value card
-        }
-
-        function confirmReset() {
-            confirmOverlay.classList.add('active');
-        }
-
-        function closeConfirm() {
-            confirmOverlay.classList.remove('active');
-        }
-
-        function executeReset() {
-            localStorage.clear();
-            location.reload();
-        }
-
-        // ===== PDF & PRINT =====
         function openOrientationModal() {
             document.getElementById('orientationModal').classList.add('active');
         }
@@ -1202,28 +1218,83 @@
             document.getElementById('orientationModal').classList.remove('active');
         }
 
-        function selectOrientation(orientation) {
-            document.querySelectorAll('.orientation-option').forEach(opt => opt.classList.remove('selected'));
-            document.getElementById(`ori${orientation.charAt(0).toUpperCase() + orientation.slice(1)}`).classList.add('selected');
+        function selectOrientation(ori) {
+            document.getElementById('oriPortrait').classList.remove('selected');
+            document.getElementById('oriLandscape').classList.remove('selected');
+            if (ori === 'portrait') {
+                document.getElementById('oriPortrait').classList.add('selected');
+            } else {
+                document.getElementById('oriLandscape').classList.add('selected');
+            }
         }
 
         function proceedWithPDF() {
-            document.getElementById('loadingOverlay').classList.add('active');
-            setTimeout(() => {
-                closeOrientationModal();
-                document.getElementById('loadingOverlay').classList.remove('active');
-                showSaveStatus('PDF ready', false);
-            }, 2000);
+            const orientation = document.getElementById('oriPortrait').classList.contains('selected') ? 'portrait' : 'landscape';
+            generatePDF(orientation);
+            closeOrientationModal();
         }
 
-        // ===== INIT =====
-        window.addEventListener('load', loadData);
-        window.addEventListener('beforeunload', (e) => {
-            if (hasUnsavedChanges) {
-                e.preventDefault();
-                e.returnValue = '';
+        function generatePDF(orientation) {
+            const element = document.getElementById('organogramPage');
+            const loading = document.getElementById('loadingOverlay');
+            loading.classList.add('active');
+
+            const options = {
+                allowTaint: true,
+                useCORS: true,
+                scale: 2
+            };
+
+            html2canvas(element, options).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const pageWidth = orientation === 'portrait' ? 210 : 297;
+                const pageHeight = orientation === 'portrait' ? 297 : 210;
+                const pdf = new jsPDF({ orientation, unit: 'mm', format: [pageWidth, pageHeight] });
+                
+                const ratio = canvas.width / canvas.height;
+                let width = pageWidth - 20;
+                let height = width / ratio;
+                
+                if (height > pageHeight - 20) {
+                    height = pageHeight - 20;
+                    width = height * ratio;
+                }
+                
+                const x = (pageWidth - width) / 2;
+                const y = (pageHeight - height) / 2;
+                
+                pdf.addImage(imgData, 'PNG', x, y, width, height);
+                pdf.save('organogram.pdf');
+                loading.classList.remove('active');
+            });
+        }
+
+        // ===== EDIT EVENT LISTENERS =====
+        document.querySelectorAll('[contenteditable="true"]').forEach(el => {
+            el.addEventListener('blur', saveToLocalStorage);
+        });
+
+        // ===== LOGO UPLOAD =====
+        document.getElementById('logoInput').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const img = document.getElementById('uploadedLogo');
+                    img.src = event.target.result;
+                    document.getElementById('logoUploadArea').classList.add('has-image');
+                    saveToLocalStorage();
+                };
+                reader.readAsDataURL(file);
             }
         });
+
+        document.getElementById('logoUploadArea').addEventListener('click', () => {
+            document.getElementById('logoInput').click();
+        });
+
+        // ===== INITIALIZE =====
+        loadFromLocalStorage();
     </script>
 </body>
 </html>
